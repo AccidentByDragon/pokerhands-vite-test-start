@@ -123,39 +123,21 @@ export default class CompareHands {
     }
   }
 
-  static isOnePair(hand) { // TODO!
-    let ranks = [];
-    for (let card of hand.cards) {
-      ranks.push(card.rank);
+  static isOnePair(hand) {
+    this.sortByRank(hand);
+    let ranks = this.numberOfOcurrences(hand.cards);
+    let values = Object.values(ranks);
+    let score = 0;
+    if (values.includes(2) && values.indexOf(2) === values.lastIndexOf(2)) {   
+      score = this.rankToPoint(Object.keys(ranks)[values.indexOf(2)]) * 1000
+        + this.rankToPoint(Object.keys(ranks)[values.lastIndexOf(1)]) * 100
+        + this.rankToPoint(Object.keys(ranks)[values.lastIndexOf(1) - 1]) * 10
+        + this.rankToPoint(Object.keys(ranks)[values.lastIndexOf(1) - 2]);
+      console.log(score);      
+      return score;
+    // last can also be values.indexOf(1) because the lowest rank will be the first instance of the value 1. but for symantic syntax I go for lastIndexOf(1)-2. that way I am working my way backwards.
     }
-    //count ranks and their occurance
-    let rankCounts = {};
-    for (let rank of ranks) {
-      rankCounts[rank] = (rankCounts[rank] || 0) + 1;
-    }
-    // check for one pair
-    let pairCount = 0;
-    let scoringPair = [];
-    for (let count of Object.values(rankCounts)) {
-      if (count === 2) {
-        scoringPair.push(rankCounts)
-        pairCount++
-      }
-    }
-    // return score
-    if (pairCount === 1) {
-      for (let card of scoringPair) {
-        let score = 0;
-        let counter = 0;
-        score += this.rankToPoint(card.rank) * 2 ** counter;
-        counter += 2;
-        console.log(score);        
-        return score;
-      }
-    }
-    else {
-      return 0;
-    }
+    return 0;    
 
 /*     this.sortByRank(hand);
     let score = 0, counter = 0;
@@ -183,5 +165,13 @@ export default class CompareHands {
     });
   }
 
+  static numberOfOcurrences(hand) {
+    let ranks = {};
+    for (let card of hand) {
+      ranks[card.rank] = ranks[card.rank] || 0;
+      ranks[card.rank]++;
+    }
+    return ranks;
+  }
 
 }
