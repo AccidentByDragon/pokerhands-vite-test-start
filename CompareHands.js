@@ -89,11 +89,81 @@ export default class CompareHands {
   }
 
   static isTwoPair(hand) { // TODO!
-    return 0;
+    let ranks = [];
+    for (let card of hand.cards) {
+      ranks.push(card.rank);
+    }
+    //count ranks and their occurance
+    let rankCounts = {};
+    for (let rank of ranks) {
+      rankCounts[rank] = (rankCounts[rank] || 0) + 1;
+    }
+    // check for two pair
+    let pairCount = 0;
+    let scoringPairs = [];
+    for (let count of Object.values(rankCounts)) {
+      if (count === 2) {
+        pairCount++
+        scoringPairs.push(count)
+      }
+    }
+    // return score
+    if (pairCount === 2) {
+      for (let card of scoringPairs) {
+        let score = 0;
+        let counter = 0;
+        score += this.rankToPoint(card.rank) * 2 ** counter;
+        counter += 2;
+        console.log(score);
+        return score;
+      }
+    }
+    else {
+      return 0;
+    }
   }
 
   static isOnePair(hand) { // TODO!
-    return 0;
+    let ranks = [];
+    for (let card of hand.cards) {
+      ranks.push(card.rank);
+    }
+    //count ranks and their occurance
+    let rankCounts = {};
+    for (let rank of ranks) {
+      rankCounts[rank] = (rankCounts[rank] || 0) + 1;
+    }
+    // check for one pair
+    let pairCount = 0;
+    let scoringPair = [];
+    for (let count of Object.values(rankCounts)) {
+      if (count === 2) {
+        scoringPair.push(rankCounts)
+        pairCount++
+      }
+    }
+    // return score
+    if (pairCount === 1) {
+      for (let card of scoringPair) {
+        let score = 0;
+        let counter = 0;
+        score += this.rankToPoint(card.rank) * 2 ** counter;
+        counter += 2;
+        console.log(score);        
+        return score;
+      }
+    }
+    else {
+      return 0;
+    }
+
+/*     this.sortByRank(hand);
+    let score = 0, counter = 0;
+    for (let card of hand.cards) {
+      score += this.rankToPoint(card.rank) * 10 ** counter;
+      counter += 2;
+    }
+    return score; */
   }
 
   static isHighestCard(hand) { // TODO!

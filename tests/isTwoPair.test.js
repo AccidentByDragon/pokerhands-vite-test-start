@@ -11,6 +11,6 @@ test('Test that isTwoPair returns truthy if its two pairs', () => {
 });
 
 test('check that isTwoPair returns falsey if not a pair', () => {
-  let hand = new Hand('♣2', '♣6', '♥4', '♣8', '♣7');
+  let hand = new Hand('♣2', '♣7', '♥4', '♣8', '♣7');
   expect(CompareHands.isTwoPair(hand)).toBeFalsy();
 });
